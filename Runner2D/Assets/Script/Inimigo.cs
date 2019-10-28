@@ -8,7 +8,8 @@ public class Inimigo : MonoBehaviour
     public float MinHeight;
     private float Height;
 
-    public float min = -10;
+    [Range(-30, 30)]
+    public float ValueEnergy;
 
     private float PosiX;
     [Range(0,30)]
@@ -18,6 +19,7 @@ public class Inimigo : MonoBehaviour
     private bool Dead;
     private float Sex;
     private Animator anim;
+    private bool Gaming;
 
 
 
@@ -40,9 +42,18 @@ public class Inimigo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Gaming = GameObject.Find("Zombie").GetComponent<PlayerMove>().Gaming;
         if (!Running || Dead)
             Speed = speedFundo;
-        PosiX -= (Speed / 10) * Time.deltaTime; ;
+        if (!Gaming)
+        {
+            if (!Running || Dead)
+                Speed = 0;
+            else
+                Speed = -10;
+        }
+
+        PosiX -= (Speed / 10) * Time.deltaTime;
 
 
         transform.position = new Vector3(PosiX, Height, 0);

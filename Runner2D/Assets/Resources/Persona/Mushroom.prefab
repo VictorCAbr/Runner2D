@@ -49,9 +49,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHeight: -1
   MinHeight: -3.5
-  min: -10
+  ValueEnergy: -21.9
   Speed: 10
-  Dead: 0
+  Running: 0
 --- !u!212 &1718004012454248836
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMove : MonoBehaviour
 {
     private bool Idle, Dead;
+    public bool Gaming;
     private Animator anim;
     private float Height;
     public float MaxHeight, MinHeight;
@@ -11,6 +13,16 @@ public class PlayerMove : MonoBehaviour
     [Range(0,30)]
     public float Speed;
 
+    public Slider BarEnergy;
+    public float MaxEnergy;
+    public float CurrentEnergy;
+    [Range(0,30)]
+    public float EnergySpeed;
+
+    public Text TxtDistancia;
+    public float CurrentDistancia=0;
+    [Range(0,30)]
+    public float DisntanciaSpeed;
 
     private enum Estado { Idle, Walk, Dead};
     private Estado estado;
@@ -25,24 +37,34 @@ public class PlayerMove : MonoBehaviour
         anim = GetComponent<Animator>();
         Height = transform.position.y;
         PosiX = transform.position.x;
+        CurrentEnergy = MaxEnergy;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (estado != Estado.Dead)
+        {
+            CurrentDistancia += (DisntanciaSpeed / 10) * Time.deltaTime;
+            if (CurrentDistancia >= 1000)
+                CurrentDistancia -= 1000;
 
-        Height -= (Speed / 10) * Time.deltaTime;
-       
-        PosiX += (Speed / 10) * Time.deltaTime;
-        
+            CurrentEnergy -= (EnergySpeed / 10) * Time.deltaTime;
+            if (CurrentEnergy < 0)
+                CurrentEnergy = 0;
 
-        if ((Input.touchCount > 0) || (Input.GetMouseButton(0)))
-            if (Height < MaxHeight)
-            {
-                Height += 2 * (Speed / 10) * Time.deltaTime;
-            }
+            Height -= (Speed / 10) * Time.deltaTime;
+            PosiX += (Speed / 10) * Time.deltaTime;
 
+            if ((Input.touchCount > 0) || (Input.GetMouseButton(0)))
+                if (Height < MaxHeight)
+                {
+                    Height += 2 * (Speed / 10) * Time.deltaTime;
+                }
+        }
 
+        TxtDistancia.text = "  D: " + (int)CurrentDistancia + "m";
+        BarEnergy.value = (CurrentEnergy / MaxEnergy);
 
         if (Height > MaxHeight)
             Height = MaxHeight;
@@ -51,14 +73,18 @@ public class PlayerMove : MonoBehaviour
         if (PosiX > MaxPosiX)
             PosiX = MaxPosiX;
 
-        estado = Estado.Walk;
+        if (CurrentEnergy <= 0)
+            estado = Estado.Dead;
+        if (estado == Estado.Idle)
+            estado = Estado.Walk;
+        Gaming = (estado != Estado.Dead);
         if (estado==Estado.Dead)
         {
             ResetTime += Time.deltaTime;
             if(ResetTime > MaxResetTime)
             {
                 ResetTime = 0;
-                Resetar();
+               // Resetar();
             }
         }
 
@@ -74,16 +100,11 @@ public class PlayerMove : MonoBehaviour
         #endregion
     }
 
-    private void ChangeEstado()
+    
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-
-        //if (estado == Estado.Idle)
-        //    estado = Estado.Walk;
-        //else
-        if (estado == Estado.Walk)
-            estado = Estado.Dead;
-        //else if (estado == Estado.Dead)
-        //    estado = Estado.Idle;
+        if (collision.tag == "Human" || collision.tag == "Mushroom")
+            CurrentEnergy += collision.GetComponent<Inimigo>().ValueEnergy;
     }
     public void Resetar()
     {
