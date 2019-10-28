@@ -10,8 +10,11 @@ public class PlayerMove : MonoBehaviour
     public float MaxHeight, MinHeight;
     private float PosiX;
     public float MaxPosiX;
+    public float DelatX;
     [Range(0,30)]
     public float Speed;
+    public float XSpeed;
+
 
     public Slider BarEnergy;
     public float MaxEnergy;
@@ -38,11 +41,19 @@ public class PlayerMove : MonoBehaviour
         Height = transform.position.y;
         PosiX = transform.position.x;
         CurrentEnergy = MaxEnergy;
+        XSpeed = Speed;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //
+        //
+     //   CurrentEnergy = MaxEnergy;
+        //
+
+
+
         if (estado != Estado.Dead)
         {
             CurrentDistancia += (DisntanciaSpeed / 10) * Time.deltaTime;
@@ -54,7 +65,7 @@ public class PlayerMove : MonoBehaviour
                 CurrentEnergy = 0;
 
             Height -= (Speed / 10) * Time.deltaTime;
-            PosiX += (Speed / 10) * Time.deltaTime;
+            PosiX += (XSpeed / 10) * Time.deltaTime;
 
             if ((Input.touchCount > 0) || (Input.GetMouseButton(0)))
                 if (Height < MaxHeight)
@@ -72,7 +83,7 @@ public class PlayerMove : MonoBehaviour
             Height = MinHeight;
         if (PosiX > MaxPosiX)
             PosiX = MaxPosiX;
-
+        DelatX = MaxPosiX - PosiX;
         if (CurrentEnergy <= 0)
             estado = Estado.Dead;
         if (estado == Estado.Idle)
@@ -105,6 +116,18 @@ public class PlayerMove : MonoBehaviour
     {
         if (collision.tag == "Human" || collision.tag == "Mushroom")
             CurrentEnergy += collision.GetComponent<Inimigo>().ValueEnergy;
+        if (collision.tag == "Obstaculo")
+            XSpeed = -collision.GetComponent<Inimigo>().Speed;
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.tag == "Obstaculo")
+            CurrentEnergy +=( collision.GetComponent<Inimigo>().ValueEnergy *(DelatX/2))/ 10;
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Obstaculo")
+            XSpeed = Speed;
     }
     public void Resetar()
     {
