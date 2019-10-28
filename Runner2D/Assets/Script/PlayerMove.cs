@@ -1,17 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public bool Idle, Dead;
+    private bool Idle, Dead;
     private Animator anim;
     private float Height;
+    public float MaxHeight, MinHeight;
+    private float PosiX;
+    public float MaxPosiX;
+    [Range(0,30)]
+    public float Speed;
+
 
     private enum Estado { Idle, Walk, Dead};
     private Estado estado;
 
-    public bool CanChange;
+  //  public bool CanChange;
     private float ResetTime;
     public float MaxResetTime = 2f;
 
@@ -20,22 +24,34 @@ public class PlayerMove : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         Height = transform.position.y;
+        PosiX = transform.position.x;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        Height -= (Speed / 10) * Time.deltaTime;
+       
+        PosiX += (Speed / 10) * Time.deltaTime;
+        
+
         if ((Input.touchCount > 0) || (Input.GetMouseButton(0)))
-        {
-            CanChange = true;
-            if (estado == Estado.Idle)
-                estado = Estado.Walk;
-        }
-        else if (CanChange)
-        {
-            CanChange = false;
-            ChangeEstado();
-        }
+            if (Height < MaxHeight)
+            {
+                Height += 2 * (Speed / 10) * Time.deltaTime;
+            }
+
+
+
+        if (Height > MaxHeight)
+            Height = MaxHeight;
+        if (Height < MinHeight)
+            Height = MinHeight;
+        if (PosiX > MaxPosiX)
+            PosiX = MaxPosiX;
+
+        estado = Estado.Walk;
         if (estado==Estado.Dead)
         {
             ResetTime += Time.deltaTime;
@@ -46,9 +62,8 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-
-        Height = transform.position.y;
-
+        
+        transform.position = new Vector3(PosiX, Height, 0);
         GetComponent<SpriteRenderer>().sortingOrder = (int)(-1000 * Height);
 
         #region Animacoes

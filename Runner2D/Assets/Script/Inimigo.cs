@@ -11,8 +11,11 @@ public class Inimigo : MonoBehaviour
     public float min = -10;
 
     private float PosiX;
+    [Range(0,30)]
     public float Speed;
-    public bool Dead;
+    private float speedFundo;
+    public bool Running;
+    private bool Dead;
     private float Sex;
     private Animator anim;
 
@@ -26,6 +29,9 @@ public class Inimigo : MonoBehaviour
             anim = GetComponent<Animator>();
             Sex = Random.Range(0, 9) % 2;
         }
+
+        speedFundo = GameObject.Find("Backgrounds").GetComponent<CreateParallax>().Speed;
+
         PosiX = transform.position.x;
         Height = Random.Range(MinHeight, MaxHeight);
         Dead = false;
@@ -34,8 +40,10 @@ public class Inimigo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PosiX -= Speed;
-        
+        if (!Running || Dead)
+            Speed = speedFundo;
+        PosiX -= (Speed / 10) * Time.deltaTime; ;
+
 
         transform.position = new Vector3(PosiX, Height, 0);
             anim.SetBool("Dead", Dead);
