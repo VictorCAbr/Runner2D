@@ -4,7 +4,8 @@ using UnityEngine.UI;
 public class PlayerMove : MonoBehaviour
 {
     private bool Idle, Dead;
-    public bool Gaming;
+    public GameObject gbPrincipal, gbHUD, gbMenu;
+    public bool Gaming, Play;
     private Animator anim;
     private float Height;
     public float MaxHeight, MinHeight;
@@ -30,6 +31,9 @@ public class PlayerMove : MonoBehaviour
     private enum Estado { Idle, Walk, Dead};
     private Estado estado;
 
+    private enum Tela { Principal, Game, Reset};
+    private Tela tela;
+         
   //  public bool CanChange;
     private float ResetTime;
     public float MaxResetTime = 2f;
@@ -42,19 +46,17 @@ public class PlayerMove : MonoBehaviour
         PosiX = transform.position.x;
         CurrentEnergy = MaxEnergy;
         XSpeed = Speed;
+        tela = Tela.Principal;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //
-        //
-     //   CurrentEnergy = MaxEnergy;
-        //
+        gbPrincipal.SetActive(tela == Tela.Principal);
+        gbHUD.SetActive(tela == Tela.Game);
+        gbMenu.SetActive(tela == Tela.Reset);
 
-
-
-        if (estado != Estado.Dead)
+        if (Gaming)
         {
             CurrentDistancia += (DisntanciaSpeed / 10) * Time.deltaTime;
             if (CurrentDistancia >= 1000)
@@ -83,19 +85,26 @@ public class PlayerMove : MonoBehaviour
             Height = MinHeight;
         if (PosiX > MaxPosiX)
             PosiX = MaxPosiX;
-        DelatX = MaxPosiX - PosiX;
+
         if (CurrentEnergy <= 0)
             estado = Estado.Dead;
-        if (estado == Estado.Idle)
+        if (Play)
+        {
             estado = Estado.Walk;
-        Gaming = (estado != Estado.Dead);
+            Play = false;
+        }
+
+        DelatX = MaxPosiX - PosiX;
+        Gaming = (estado == Estado.Walk);
+
+
         if (estado==Estado.Dead)
         {
             ResetTime += Time.deltaTime;
             if(ResetTime > MaxResetTime)
             {
                 ResetTime = 0;
-               // Resetar();
+                Resetar();
             }
         }
 
@@ -132,5 +141,28 @@ public class PlayerMove : MonoBehaviour
     public void Resetar()
     {
         estado = Estado.Idle;
+        CurrentEnergy = MaxEnergy;
+        tela = Tela.Reset;
+
+        GameObject[] Deletar = GameObject.FindGameObjectsWithTag("Human");
+        for (int i = 0; i < Deletar.Length; i++)
+            Destroy(Deletar[i]);
+
+        Deletar = GameObject.FindGameObjectsWithTag("Mushroom");
+        for (int i = 0; i < Deletar.Length; i++)
+            Destroy(Deletar[i]);
+
+        Deletar = GameObject.FindGameObjectsWithTag("Obstaculo");
+        for (int i = 0; i < Deletar.Length; i++)
+            Destroy(Deletar[i]);
+    }
+    public void StarPlay()
+    {
+        Play = true;
+        tela = Tela.Game;
+    }
+    public void VoltarMenu()
+    {
+        tela = Tela.Principal;
     }
 }
