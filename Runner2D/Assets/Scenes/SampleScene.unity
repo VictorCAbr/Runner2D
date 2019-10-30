@@ -400,7 +400,7 @@ GameObject:
   - component: {fileID: 657773607}
   m_Layer: 0
   m_Name: GeneratorHuman
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -418,9 +418,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 3902598729038776756, guid: 11c4b6c855f997d48964d6f75d3f8d34, type: 3}
-  MaxTime: 3
-  MinTime: 0
-  DeltaTime: 0
+  IniTime: 2
+  FinTime: 10
+  DeltaTime: 1
+  CurTime: 0
 --- !u!4 &657773608
 Transform:
   m_ObjectHideFlags: 0
@@ -957,7 +958,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Copias: []
   DeltaX: 20.61657
-  Speed: 17.3
+  Speed: 60
   DeltaSpeed: 15
 --- !u!1 &1095181479
 GameObject:
@@ -1024,7 +1025,7 @@ MonoBehaviour:
     m_MinSize: 10
     m_MaxSize: 40
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -1103,7 +1104,7 @@ MonoBehaviour:
     m_MinSize: 10
     m_MaxSize: 40
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -1150,7 +1151,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 0.27999878, y: 0}
+  m_AnchoredPosition: {x: 0.27996826, y: 0}
   m_SizeDelta: {x: -13.43, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1206013360
@@ -1187,10 +1188,10 @@ RectTransform:
   m_Father: {fileID: 1384307617}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -60.4}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 2.7000008}
+  m_SizeDelta: {x: 114, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1206013362
 MonoBehaviour:
@@ -1297,7 +1298,7 @@ GameObject:
   - component: {fileID: 1257672506}
   m_Layer: 0
   m_Name: GeneratorMushroom
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1315,9 +1316,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 1718004012454248834, guid: 95bab54d3eb93494ba3cbc1ff07c23f5, type: 3}
-  MaxTime: 6
-  MinTime: 0
-  DeltaTime: 0
+  IniTime: 6
+  FinTime: 2
+  DeltaTime: 1
+  CurTime: 0
 --- !u!4 &1257672507
 Transform:
   m_ObjectHideFlags: 0
@@ -1566,7 +1568,7 @@ GameObject:
   - component: {fileID: 1654979940}
   m_Layer: 0
   m_Name: GeneratorObstaculo
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1584,9 +1586,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 4573231931580265975, guid: cf9ccae01dc529d4fab9788eceab9731, type: 3}
-  MaxTime: 10
-  MinTime: 0
-  DeltaTime: 0
+  IniTime: 9
+  FinTime: 1
+  DeltaTime: 5
+  CurTime: 0
 --- !u!4 &1654979941
 Transform:
   m_ObjectHideFlags: 0
@@ -1635,10 +1638,10 @@ RectTransform:
   m_Father: {fileID: 1384307617}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 15}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -32.9}
+  m_SizeDelta: {x: 114, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1668877110
 MonoBehaviour:
@@ -2499,7 +2502,7 @@ PrefabInstance:
     - target: {fileID: 2300208500421983944, guid: a607b9c00f4f3be48a19ed38bd7c9069,
         type: 3}
       propertyPath: EnergySpeed
-      value: 17.1
+      value: 25.7
       objectReference: {fileID: 0}
     - target: {fileID: 2300208500421983944, guid: a607b9c00f4f3be48a19ed38bd7c9069,
         type: 3}
@@ -2526,6 +2529,11 @@ PrefabInstance:
       propertyPath: gbMenu
       value: 
       objectReference: {fileID: 1384307616}
+    - target: {fileID: 2300208500421983944, guid: a607b9c00f4f3be48a19ed38bd7c9069,
+        type: 3}
+      propertyPath: MaxDeltaX
+      value: 1.98
+      objectReference: {fileID: 0}
     - target: {fileID: 2300208500421983959, guid: a607b9c00f4f3be48a19ed38bd7c9069,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2728,12 +2736,12 @@ PrefabInstance:
     - target: {fileID: 3902598729038776782, guid: 11c4b6c855f997d48964d6f75d3f8d34,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.74
+      value: 9.76
       objectReference: {fileID: 0}
     - target: {fileID: 3902598729038776782, guid: 11c4b6c855f997d48964d6f75d3f8d34,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.72
+      value: -4.63
       objectReference: {fileID: 0}
     - target: {fileID: 3902598729038776782, guid: 11c4b6c855f997d48964d6f75d3f8d34,
         type: 3}
