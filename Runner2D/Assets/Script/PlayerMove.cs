@@ -14,21 +14,27 @@ public class PlayerMove : MonoBehaviour
     public float DelatX;
     [Range(0, 3)]
     public float MaxDeltaX;
-    [Range(0,30)]
+    [Range(0, 100)]
     public float Speed;
     public float XSpeed;
 
 
     public Slider BarEnergy;
+    [Range(1, 2)]
+    public float IniEnergy = 1.3f;
     public float MaxEnergy;
     public float CurrentEnergy;
-    [Range(0,30)]
+    [Range(0, 100)]
     public float EnergySpeed;
 
     public Text TxtDistancia;
     public float CurrentDistancia=0;
-    [Range(0,30)]
+    [Range(0, 100)]
     public float DisntanciaSpeed;
+
+    public Text TxtScore;
+    public Text TxtPontos;
+    public float CurrentPontos = 0;
 
     private enum Estado { Idle, Walk, Dead};
     private Estado estado;
@@ -46,7 +52,7 @@ public class PlayerMove : MonoBehaviour
         anim = GetComponent<Animator>();
         Height = transform.position.y;
         PosiX = transform.position.x;
-        CurrentEnergy = MaxEnergy;
+        CurrentEnergy = MaxEnergy * IniEnergy;
         XSpeed = Speed;
         tela = Tela.Principal;
     }
@@ -67,8 +73,7 @@ public class PlayerMove : MonoBehaviour
             CurrentEnergy -= (EnergySpeed / 10) * Time.deltaTime;
             if (CurrentEnergy < 0)
                 CurrentEnergy = 0;
-            if (CurrentEnergy > MaxEnergy)
-                CurrentEnergy = MaxEnergy;
+          
 
             Height -= (Speed / 10) * Time.deltaTime;
             PosiX += (XSpeed / 10) * Time.deltaTime;
@@ -81,6 +86,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         TxtDistancia.text = "  D: " + (int)CurrentDistancia + "m";
+        TxtPontos.text = "    x" + (int)CurrentPontos;
         BarEnergy.value = (CurrentEnergy / MaxEnergy);
 
         if (Height > MaxHeight)
@@ -129,7 +135,13 @@ public class PlayerMove : MonoBehaviour
     {
         if (collision.tag == "Human" || collision.tag == "Mushroom")
             CurrentEnergy += collision.GetComponent<Inimigo>().ValueEnergy;
-        if (collision.tag == "Obstaculo")
+        if (collision.tag == "Human")
+        {
+            CurrentPontos++;
+            if (CurrentEnergy > MaxEnergy)
+                CurrentEnergy = MaxEnergy;
+        }
+            if (collision.tag == "Obstaculo")
                 XSpeed = -collision.GetComponent<Inimigo>().Speed;
     }
     private void OnTriggerStay2D(Collider2D collision)
@@ -148,8 +160,10 @@ public class PlayerMove : MonoBehaviour
     public void Resetar()
     {
         estado = Estado.Idle;
-        CurrentEnergy = MaxEnergy;
+        TxtScore.text = TxtDistancia.text + "\n" + TxtPontos.text;
+        CurrentEnergy = MaxEnergy * IniEnergy;
         CurrentDistancia = 0;
+        CurrentPontos = 0;
         tela = Tela.Reset;
 
         GameObject[] Deletar = GameObject.FindGameObjectsWithTag("Human");
@@ -177,5 +191,9 @@ public class PlayerMove : MonoBehaviour
     public void VoltarMenu()
     {
         tela = Tela.Principal;
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
