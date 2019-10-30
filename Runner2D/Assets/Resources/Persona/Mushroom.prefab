@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHeight: -1
   MinHeight: -3.5
-  ValueEnergy: -15
+  ValueEnergy: -21.9
   Speed: 10
   Running: 0
 --- !u!212 &1718004012454248836

@@ -6,7 +6,7 @@ public class CreateParallax : MonoBehaviour
 {
     public GameObject[] Copias;
     public float DeltaX = 20.61657f;
-    [Range(0, 100)]
+    [Range(0, 30)]
     public float Speed;
     [Range(0, 15)]
     public float DeltaSpeed = 5;

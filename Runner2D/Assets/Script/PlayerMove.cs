@@ -12,8 +12,6 @@ public class PlayerMove : MonoBehaviour
     private float PosiX;
     public float MaxPosiX;
     public float DelatX;
-    [Range(0, 3)]
-    public float MaxDeltaX;
     [Range(0,30)]
     public float Speed;
     public float XSpeed;
@@ -61,14 +59,12 @@ public class PlayerMove : MonoBehaviour
         if (Gaming)
         {
             CurrentDistancia += (DisntanciaSpeed / 10) * Time.deltaTime;
-            if (CurrentDistancia >= 10000)
-                CurrentDistancia -= 10000;
+            if (CurrentDistancia >= 1000)
+                CurrentDistancia -= 1000;
 
             CurrentEnergy -= (EnergySpeed / 10) * Time.deltaTime;
             if (CurrentEnergy < 0)
                 CurrentEnergy = 0;
-            if (CurrentEnergy > MaxEnergy)
-                CurrentEnergy = MaxEnergy;
 
             Height -= (Speed / 10) * Time.deltaTime;
             PosiX += (XSpeed / 10) * Time.deltaTime;
@@ -130,15 +126,12 @@ public class PlayerMove : MonoBehaviour
         if (collision.tag == "Human" || collision.tag == "Mushroom")
             CurrentEnergy += collision.GetComponent<Inimigo>().ValueEnergy;
         if (collision.tag == "Obstaculo")
-                XSpeed = -collision.GetComponent<Inimigo>().Speed;
+            XSpeed = -collision.GetComponent<Inimigo>().Speed;
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.tag == "Obstaculo")
-                CurrentEnergy += (collision.GetComponent<Inimigo>().ValueEnergy * (DelatX / 2)) / 10;
-        if (DelatX > MaxDeltaX)
-            XSpeed = Speed;
-
+            CurrentEnergy +=( collision.GetComponent<Inimigo>().ValueEnergy *(DelatX/2))/ 10;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -149,7 +142,6 @@ public class PlayerMove : MonoBehaviour
     {
         estado = Estado.Idle;
         CurrentEnergy = MaxEnergy;
-        CurrentDistancia = 0;
         tela = Tela.Reset;
 
         GameObject[] Deletar = GameObject.FindGameObjectsWithTag("Human");
@@ -163,11 +155,6 @@ public class PlayerMove : MonoBehaviour
         Deletar = GameObject.FindGameObjectsWithTag("Obstaculo");
         for (int i = 0; i < Deletar.Length; i++)
             Destroy(Deletar[i]);
-
-        Deletar = GameObject.FindGameObjectsWithTag("Respawn");
-        for (int i = 0; i < Deletar.Length; i++)
-            Deletar[i].GetComponent<Create>().Resetar();
-
     }
     public void StarPlay()
     {
