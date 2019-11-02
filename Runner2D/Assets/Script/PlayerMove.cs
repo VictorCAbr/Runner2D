@@ -5,6 +5,7 @@ public class PlayerMove : MonoBehaviour
 {
     private bool Idle, Dead;
     public GameObject gbPrincipal, gbHUD, gbMenu;
+    public GameObject VfxWalk;
     public bool Gaming, Play;
     private Animator anim;
     private float Height;
@@ -63,6 +64,7 @@ public class PlayerMove : MonoBehaviour
         gbPrincipal.SetActive(tela == Tela.Principal);
         gbHUD.SetActive(tela == Tela.Game);
         gbMenu.SetActive(tela == Tela.Reset);
+        VfxWalk.SetActive(estado == Estado.Walk);
 
         if (Gaming)
         {

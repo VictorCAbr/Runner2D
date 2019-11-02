@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Inimigo : MonoBehaviour
 {
+    public GameObject VfxWalk, VfxHit;
+
     public float MaxHeight;
     public float MinHeight;
     private float Height;
@@ -38,6 +40,8 @@ public class Inimigo : MonoBehaviour
         Height = Random.Range(MinHeight, MaxHeight);
         Dead = false;
         GetComponent<SpriteRenderer>().sortingOrder = (int)(-1000 * Height);
+        
+
     }
     // Update is called once per frame
     void Update()
@@ -57,7 +61,10 @@ public class Inimigo : MonoBehaviour
 
 
         transform.position = new Vector3(PosiX, Height, 0);
-            anim.SetBool("Dead", Dead);
+        if (VfxHit != null)
+            VfxHit.SetActive(Dead);
+        if (VfxWalk != null)
+            VfxWalk.SetActive(!Dead);
         #region Animacoes
         if (anim != null)
         {
