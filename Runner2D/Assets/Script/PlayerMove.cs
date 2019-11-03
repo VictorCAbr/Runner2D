@@ -6,6 +6,9 @@ public class PlayerMove : MonoBehaviour
     private bool Idle, Dead;
     public GameObject gbPrincipal, gbHUD, gbMenu;
     public GameObject VfxWalk;
+    [Range(1,4)]
+    public float MaxSkins;
+    public float Skin;
     public bool Gaming, Play;
     private Animator anim;
     private float Height;
@@ -127,12 +130,18 @@ public class PlayerMove : MonoBehaviour
         #region Animacoes
         Idle = (estado == Estado.Idle);
         Dead = (estado == Estado.Dead);
+        MaxSkins = (int)MaxSkins;
+        anim.SetFloat("Skin", Skin);
         anim.SetBool("Idle", Idle);
         anim.SetBool("Dead", Dead);
         #endregion
     }
 
-    
+    public void MudaSkin()
+    {
+        Skin++;
+        Skin %= MaxSkins;
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Human" || collision.tag == "Mushroom")

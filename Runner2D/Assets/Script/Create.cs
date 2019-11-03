@@ -8,6 +8,7 @@ public class Create : MonoBehaviour
     private float CountTime;
     public float IniTime, FinTime, DeltaTime, CurTime;
     private bool Gaming;
+    private Vector3 Posi;
 
     private void Start()
     {
@@ -15,7 +16,9 @@ public class Create : MonoBehaviour
     }
     public void Resetar()
     {
+        Posi = transform.position;
         CurTime = IniTime;
+        CountTime = 3;
     }
     void Update()
     {
@@ -26,7 +29,7 @@ public class Create : MonoBehaviour
             if (CountTime > CurTime)
             {
                 CountTime = 0;
-                Instantiate(Target, new Vector3(transform.position.x, 0, 0), Quaternion.identity);
+                Instantiate(Target, Posi, Quaternion.identity);
                 CurTime = Mathf.MoveTowards(CurTime, FinTime, DeltaTime / 17);
             }
         }

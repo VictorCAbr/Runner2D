@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class Parallax : MonoBehaviour
 {
+
+    #region Statue
+    public bool Statue;
+    private Vector3 Posi;
+    private float NwX;
+    [Range(-10, 0)]
+    public float MinX = -6;
+    [Range(0, 10)]
+    public float MaxX = 3;
+    #endregion
+
     public GameObject Copia;
     public GameObject[] Copias;
     private GameObject Gerador;
@@ -30,6 +41,12 @@ public class Parallax : MonoBehaviour
         PosiX = transform.position.x;
         GetComponent<SpriteRenderer>().sortingOrder = (int)(-1000 - 5 * Profundidade);
 
+
+        #region Statue
+        Posi = transform.position;
+        Posi.x += Random.Range(MinX, MaxX);
+        transform.position = Posi;
+        #endregion
     }
 
     // Update is called once per frame
