@@ -94,10 +94,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c9cc296746eb14eb56d1d9f5ba2c97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Copia: []
-  DeltaX: 20.61657
-  Speed: 24.6
-  DeltaSpeed: 5
+  Statue: 0
+  MinX: -6
+  MaxX: 3
+  Copia: {fileID: 0}
+  Copias: []
   Profundidade: 0
   XCreateNew: 0
   CriarUm: 0

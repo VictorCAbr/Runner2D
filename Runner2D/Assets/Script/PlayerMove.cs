@@ -65,6 +65,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         gbPrincipal.SetActive(tela == Tela.Principal);
+        transform.GetChild(0).gameObject.SetActive(tela == Tela.Principal);
         gbHUD.SetActive(tela == Tela.Game);
         gbMenu.SetActive(tela == Tela.Reset);
         VfxWalk.SetActive(estado == Estado.Walk);
@@ -144,16 +145,20 @@ public class PlayerMove : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Human" || collision.tag == "Mushroom")
-            CurrentEnergy += collision.GetComponent<Inimigo>().ValueEnergy;
-        if (collision.tag == "Human")
+        if (estado == Estado.Walk)
         {
-            CurrentPontos++;
-            if (CurrentEnergy > MaxEnergy)
-                CurrentEnergy = MaxEnergy;
-        }
+            if (collision.tag == "Human" || collision.tag == "Mushroom")
+                CurrentEnergy += collision.GetComponent<Inimigo>().ValueEnergy;
+            if (collision.tag == "Human")
+            {
+                MaxEnergy++;
+                CurrentPontos++;
+                if (CurrentEnergy > MaxEnergy)
+                    CurrentEnergy = MaxEnergy;
+            }
             if (collision.tag == "Obstaculo")
                 XSpeed = -collision.GetComponent<Inimigo>().Speed;
+        }
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -170,6 +175,10 @@ public class PlayerMove : MonoBehaviour
     }
     public void Resetar()
     {
+        if (CurrentDistancia > 100)
+            MaxSkins = 3;
+        if (CurrentDistancia > 150)
+            MaxSkins = 4;
         estado = Estado.Idle;
         TxtScore.text = TxtDistancia.text + "\n" + TxtPontos.text;
         CurrentEnergy = MaxEnergy * IniEnergy;

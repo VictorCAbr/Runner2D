@@ -43,9 +43,12 @@ public class Parallax : MonoBehaviour
 
 
         #region Statue
-        Posi = transform.position;
-        Posi.x += Random.Range(MinX, MaxX);
-        transform.position = Posi;
+        if (Profundidade == 2)
+        {
+            Posi = transform.position;
+            Posi.x += Random.Range(MinX, MaxX);
+            transform.position = Posi;
+        }
         #endregion
     }
 
